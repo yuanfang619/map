@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3D地图</title>
+<style>
+body,html{ margin:0;padding:0;font:12px/16px Verdana,Helvetica,Arial,sans-serif;width: 100%;height: 100%}
+.container{
+  height: 100%
+}
+</style>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=e784264386fff37cdda4daa3338186de"></script> 
+</head>
+<body >
+<div id="container" style="width:100%; height:100%;resize:both;"></div>
+<script language="javascript">
+var map;
+function mapInit(){
+   map = new AMap.Map('container', {
+    resizeEnable: true,
+    rotateEnable:true,
+    pitchEnable:true,
+    zoom: 17.5,
+    pitch:70,
+    rotation:45,
+    viewMode:'3D',//开启3D视图,默认为关闭
+    buildingAnimation:true,//楼块出现是否带动画
+    mapStyle:'amap://styles/6a11721549bace0047672d3a090f28e3',
+    expandZoomRange:true,
+    zooms:[3,20],
+    center:[116.557352,39.912115]
+  });
+
+    // 添加 Object3DLayer 图层，用于添加 3DObject 对象
+    var object3Dlayer = new AMap.Object3DLayer();
+    map.add(object3Dlayer);
+
+    // 以不规则棱柱体 Prism 为例，添加至 3DObjectLayer 图层中
+    var paths1 = [
+        [116.560066,39.910035],
+        [116.560041,39.910325],
+        [116.560420,39.910333],
+        [116.56044,39.910059]
+    ];
+
+    var paths2 = [
+        [116.555775,39.910323],
+        [116.555763,39.91047],
+        [116.556454,39.910503],
+        [116.556486,39.910356]
+    ];
+
+    var paths3 = [
+        [116.556685,39.91036],
+        [116.556674,39.910483],
+        [116.557065,39.910511],
+        [116.557092,39.910366],
+        [116.557307,39.910349],
+        [116.557323,39.910142],
+        [116.556956,39.910142],
+        [116.556969,39.91036]
+    ];
+
+    var paths4 = [
+        [116.559150,39.914162],
+        [116.559115,39.914360],
+        [116.55971,39.914393],
+        [116.559748,39.914211]
+    ];
+
+    var bounds1 = paths1.map(function(path) {
+        return new AMap.LngLat(path[0], path[1]);
+    });
+
+    var bounds2 = paths2.map(function(path) {
+        return new AMap.LngLat(path[0], path[1]);
+    });
+
+    var bounds3 = paths3.map(function(path) {
+        return new AMap.LngLat(path[0], path[1]);
+    });
+
+    var bounds4 = paths4.map(function(path) {
+        return new AMap.LngLat(path[0], path[1]);
+    });
+
+    // 创建 Object3D 对象
+    var prism1 = new AMap.Object3D.Prism({
+        path: bounds1,
+        height: 330,
+        color: 'rgba(255, 110, 180, 0.7)' // 支持 #RRGGBB、rgb()、rgba() 格式数据
+    });
+
+    var prism2 = new AMap.Object3D.Prism({
+        path: bounds2,
+        height: 210,
+        color: 'rgba(255, 193, 37, 0.7)' // 支持 #RRGGBB、rgb()、rgba() 格式数据
+    });
+
+    var prism3 = new AMap.Object3D.Prism({
+        path: bounds3,
+        height: 150,
+        color: 'rgba(255, 193, 37, 0.7)' // 支持 #RRGGBB、rgb()、rgba() 格式数据
+    });
+
+    var prism4 = new AMap.Object3D.Prism({
+        path: bounds4,
+        height: 95,
+        color: 'rgba(255, 193, 37, 0.7)' // 支持 #RRGGBB、rgb()、rgba() 格式数据
+    });
+
+    // 开启透明度支持
+    prism1.transparent = true;
+    prism2.transparent = true;
+    prism3.transparent = true;
+    prism4.transparent = true;
+
+    // 添加至 3D 图层
+    object3Dlayer.add(prism1);
+    object3Dlayer.add(prism2);
+    object3Dlayer.add(prism3);
+    object3Dlayer.add(prism4);
+  
+  map.addControl(new AMap.ControlBar({
+    showZoomBar:false,
+    showControlButton:true,
+    position:{
+      right:'10px',
+      top:'10px'
+    }
+  }))
+}
+mapInit()
+</script>
+</body>
+</html>
